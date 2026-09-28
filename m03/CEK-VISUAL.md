@@ -8,16 +8,16 @@ mahasiswa.
 
 ## Level 1–3 — Kartu flex
 
-- [ ] Tiga kartu koleksi unggulan berjajar ke SAMPING (bukan bertumpuk ke
+- [x] Tiga kartu koleksi unggulan berjajar ke SAMPING (bukan bertumpuk ke
       bawah)?
-- [ ] Ada jarak yang masuk akal di antara ketiganya (efek dari
+- [x] Ada jarak yang masuk akal di antara ketiganya (efek dari
       justify-content)?
-- [ ] Kartu kedua teksnya lebih panjang/tinggi — apakah ketiganya tetap
+- [x] Kartu kedua teksnya lebih panjang/tinggi — apakah ketiganya tetap
       terlihat rapi sejajar (bukan salah satu "mengambang" aneh)?
 
 ## Level 4 — Sidebar tetap, konten mengisi
 
-- [ ] Lebarkan/sempitkan jendela browser — sidebar tetap sama lebarnya
+- [x] Lebarkan/sempitkan jendela browser — sidebar tetap sama lebarnya
       (kira-kira 250px), sementara area konten yang melebar/menyempit?
 
 ## Level 5 — Sumbu berpindah
