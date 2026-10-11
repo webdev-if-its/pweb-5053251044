@@ -43,17 +43,32 @@ export function tandaiPengumumanPenting() {
   // tulis di sini
   const li = document.querySelectorAll("#daftar-pengumuman li");
   li.forEach(i => {
-    if (i.textContent.includes("tutup")) i.textContent = "⚠ " + i.textContent;
+    const teks = i.textContent;
+    if (teks.toLowerCase().includes("tutup") && !teks.trim().startsWith("⚠")) {
+      i.textContent = "⚠ " + teks;
+    }
   })
 }
 
 // Level 5 — TODO: buat SATU elemen <article> untuk satu buku, memakai
-// document.createElement dan textContent (BUKAN innerHTML — aturan ini
+// document.createElement dan textContent (BUKAN — aturan ini
 // berlaku untuk seluruh file, bukan cuma fungsi ini).
 // Struktur minimal: <article><h3>judul</h3><p>penulis</p><p>harga</p></article>
 // Kembalikan elemen itu (jangan langsung ditempel ke halaman di sini).
 export function buatKartuBuku(buku) {
-  return null;
+  const kartu = document.createElement('article');
+
+  const judul = document.createElement('h3');
+  judul.textContent = buku.judul;
+
+  const penulis = document.createElement('p');
+  penulis.textContent = buku.penulis;
+
+  const harga = document.createElement('p');
+  harga.textContent = formatRupiah(buku.harga);
+
+  kartu.append(judul, penulis, harga);
+  return kartu;
 }
 
 // Level 6 & 10 — TODO: kosongkan #katalog, lalu render ulang dari `data`.
@@ -65,13 +80,31 @@ export function buatKartuBuku(buku) {
 //   "Tidak ada buku yang cocok." — jangan biarkan #katalog kosong melompong.
 // - Setiap kartu yang ditampilkan harus bisa diklik (lihat Level 7).
 export function render(data) {
-  // tulis di sini
+  const wadah = document.querySelector('#katalog');
+  const ringkasan = document.querySelector('#ringkasan');
+
+  wadah.textContent = '';
+  ringkasan.textContent = data.length + ' buku ditemukan';
+
+  if (data.length === 0) {
+    const pesan = document.createElement('p');
+    pesan.textContent = 'Tidak ada buku yang cocok.';
+    wadah.append(pesan);
+    return;
+  }
+
+  data.forEach(buku => {
+    const kartu = buatKartuBuku(buku);
+    kartu.addEventListener('click', () => tampilkanDetail(buku));
+    wadah.append(kartu);
+  });
 }
 
 // Level 7 — dipanggil saat sebuah kartu diklik. TODO: tampilkan judul,
-// penulis, dan harga buku itu di #panel-detail (textContent, bukan innerHTML).
+// penulis, dan harga buku itu di #panel-detail (textContent, bukan).
 function tampilkanDetail(buku) {
-  // tulis di sini
+  const panel = document.querySelector('#panel-detail');
+  panel.textContent = buku.judul + ' — ' + buku.penulis + ' — ' + formatRupiah(buku.harga);
 }
 
 // Level 8 & 9 — TODO: pasang event listener 'submit' pada #form-cari.
@@ -80,7 +113,13 @@ function tampilkanDetail(buku) {
 //   mengandung kata itu (tanpa peduli huruf besar/kecil), lalu panggil
 //   render(hasil) — bukan menulis ulang kode tampilan di sini.
 export function pasangFormCari() {
-  // tulis di sini
+  const form = document.querySelector('#form-cari');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const kata = document.querySelector('#input-cari').value.trim().toLowerCase();
+    const hasil = katalog.filter(b => b.judul.toLowerCase().includes(kata));
+    render(hasil);
+  });
 }
 
 // Bootstrap halaman — jangan hapus, ini yang membuat halaman "hidup" saat
